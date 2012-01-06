@@ -1,2 +1,3 @@
 Welcome To Todo App
 The goal is to create a rails server that I can use to host as a backend server for a Todo App where a user can share todos with others.
+User can manage all his todos and execute actions on the todos that he has permissions to
