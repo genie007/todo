@@ -1,3 +1,6 @@
 Welcome To Todo App
-The goal is to create a rails server that I can use to host as a backend server for a Todo App where a user can share todos with others.
-User can manage all his todos and execute actions on the todos that he has permissions to
+User can create task lists to do.
+User can create ,update, delete and mark task as complete the tasks for which user is the owner
+User can make changes to tasks for which he is not the owner only if owner explicitly provide permission.
+Owner of a task can give permission to others to update ,delete or mark as complete option.
+
