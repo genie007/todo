@@ -1,6 +1,11 @@
 Todo::Application.routes.draw do
   devise_for :users
-
+    namespace :api do 
+        namespace :v1 do 
+            resources :tasks 
+        end 
+    end
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
