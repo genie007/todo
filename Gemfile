@@ -10,6 +10,7 @@ group :test, :development do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-rspec'
   gem 'guard-livereload'  
+  gem "ruby_gntp", "~> 0.3.4"
 end
 group :test do
   gem 'rack-test'
@@ -19,6 +20,9 @@ group :test do
   gem 'factory_girl'
   gem 'email_spec'
   gem 'turn', '0.8.2', :require => false
+  gem "spork", "> 0.9.0.rc"
+  gem "guard-spork"
+
 end
 
 # to fix rake breaking rails
