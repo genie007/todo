@@ -7,6 +7,9 @@ gem 'cancan'
 gem 'jquery-rails'
 group :test, :development do
   gem 'rspec-rails', '~> 2.6.1.beta1'
+  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem 'guard-rspec'
+  gem 'guard-livereload'  
 end
 group :test do
   gem 'rack-test'
