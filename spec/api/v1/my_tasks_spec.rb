@@ -17,7 +17,6 @@ describe "api/v1/mytasks" , :type => :api do
             get "#{url}.json", :token => token
             tasks_json =MyTask.for(user,"view").to_json
             last_response.body.should eql(tasks_json)
-            puts last_response.body
             tasks =JSON.parse(last_response.body)
             tasks.any? do |t|
                 t["name"] == taskName
