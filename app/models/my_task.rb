@@ -11,6 +11,4 @@ class MyTask < ActiveRecord::Base
     def self.for(user,action)
         MyTask.find_all_by_user_id(user) | MyTask.accessed_by(user,action)
     end
-
-    
 end
