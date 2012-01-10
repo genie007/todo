@@ -12,5 +12,5 @@ class Api::V1::BaseController < ActionController::Base
          @current_user
      end 
      
-        respond_to :json
+    respond_to :json , :xml
 end

@@ -25,6 +25,17 @@ describe "api/v1/mytasks" , :type => :api do
                 t["name"]== "Access Denied"
             end.should be_false
         end
-      
+       it "XML" do 
+           get "#{url}.xml", :token => token
+           tasks_xml =MyTask.for(user,"view").to_xml
+           last_response.body.should eql(tasks_xml)
+           tasks =Nokogiri::XML(last_response.body)
+           tasks.css("name").any? do |t|
+             t.text == taskName
+           end.should be_true
+           tasks.css("name").any? do |t|
+               t.text == "Access Denied"
+           end.should be_false
+       end 
     end
 end
