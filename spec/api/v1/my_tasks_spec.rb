@@ -12,7 +12,7 @@ describe "api/v1/mytasks" , :type => :api do
         @task2 = Factory(:myTask, :user=>user)
     end
     context " tasks viewable by this user" do
-        let(:url) { "api/v1/tasks"  }
+        let(:url) { "/api/v1/tasks"  }
         it "json" do
             get "#{url}.json", :token => token
             tasks_json =MyTask.for(user,"view").to_json
@@ -37,5 +37,25 @@ describe "api/v1/mytasks" , :type => :api do
                t.text == "Access Denied"
            end.should be_false
        end 
+    end
+    context "creating a task" do 
+        let(:url)  { "/api/v1/tasks" }
+        it "successful JSON" do
+            post "#{url}.json", :token => token , :task => { :name => "Inspector" ,:user_id => user.id }
+            task = MyTask.find_by_name("Inspector")
+            task.should_not be_nil
+            route ="/api/v1/tasks/#{task.id}"
+            last_response.status.should eql(201)
+            last_response.headers["Location"].should eql(route)
+            last_response.body.should eql(task.to_json)
+        end
+        it "unsuccessful JSON" do
+            post "#{url}.json", :token => token , :task => {  }
+            task = MyTask.find_by_name("Inspector")
+            task.should be_nil
+            last_response.status.should eql(422)
+            errors = {:name => ["can't be blank"],:user_id => ["can't be blank"] }.to_json
+            last_response.body.should eql(errors)
+        end
     end
 end
