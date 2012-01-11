@@ -25,4 +25,7 @@ describe MyTask do
       task1.should be_valid
       task2.should_not be_valid
   end
+  it "should raise RecordNotFound exception " do
+     expect { MyTask.for(@user,"view").find(1) }.to  raise_exception(ActiveRecord::RecordNotFound)
+  end
 end
