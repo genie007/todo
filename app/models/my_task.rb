@@ -3,12 +3,19 @@ class MyTask < ActiveRecord::Base
     has_many :permissions , :as => :model
     validates :name , :presence => true , :uniqueness => { :scope => :user_id, :case_sensitive => false,:message => "should be unique for a user"}
     validates:user_id ,:presence => true 
-    
-    scope :accessed_by, lambda { |user,action|
-    joins(:permissions).where(:permissions => { :action => action.to_s,
-    :user_id => user.id })
-    }
+
     def self.for(user,action)
-        MyTask.find_all_by_user_id(user) | MyTask.accessed_by(user,action)
+ 	MyTask.where(
+	"my_tasks.id IN 
+      (
+        SELECT my_tasks.id FROM my_tasks
+		WHERE user_id = ?
+		UNION
+		SELECT my_tasks.id FROm my_tasks 
+		INNER JOIN permissions 
+		ON my_tasks.id = permissions.model_id 
+		WHERE permissions.model_type = ? and permissions.action = ? 
+      ) 
+     ", user.id,:MyTask,action.to_s )
     end
 end
