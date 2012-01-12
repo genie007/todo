@@ -10,6 +10,7 @@ group :test, :development do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-rspec'
   gem "ruby_gntp", "~> 0.3.4"
+  gem 'guard-livereload'
 end
 group :test do
   gem 'rack-test'

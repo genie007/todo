@@ -86,4 +86,11 @@ describe "api/v1/mytasks" , :type => :api do
             last_response.body.should eql(errors.to_json)
         end
     end
+    context "deleting a task" do
+        let(:url) { "/api/v1/tasks/#{@task.id}"}
+        it "JSON" do
+            delete "#{url}.json", :token => token 
+            last_response.status.should eql(200)
+        end
+    end
 end

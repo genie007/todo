@@ -1,5 +1,5 @@
 class Api::V1::TasksController < Api::V1::BaseController 
-    before_filter :find_task , :only => [:show, :update ] 
+    before_filter :find_task , :only => [:show, :update , :destroy ] 
     def index  
         respond_with(MyTask.for(current_user, :action => 'view')) 
     end
@@ -18,6 +18,10 @@ class Api::V1::TasksController < Api::V1::BaseController
     
     def update
         @task.update_attributes(params[:task])
+        respond_with(@task)
+    end
+    def destroy
+        @task.destroy
         respond_with(@task)
     end
     
