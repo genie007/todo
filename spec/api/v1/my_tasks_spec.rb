@@ -58,4 +58,14 @@ describe "api/v1/mytasks" , :type => :api do
             last_response.body.should eql(errors)
         end
     end
+    context "viewing a task" do
+        let(:url) { "/api/v1/tasks/#{@task.id}"}
+        it "JSON" do
+            get "#{url}.json" , :token => token 
+            last_response.status.should eql(200)
+            last_response.body.should eql(@task.to_json)
+            task_response = JSON.parse(last_response.body)
+            task_response["name"] .should eql(taskName)
+         end
+    end
 end
