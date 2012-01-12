@@ -8,8 +8,6 @@ describe "api/v1/mytasks" , :type => :api do
         @task = Factory(:myTask, :name =>taskName,:user => user )
         @user2 = Factory(:user)
         @task2 = Factory(:myTask, :name => "Access Denied", :user => @user2)
-        user.permissions.create!(:action => 'view', :model => @task)
-        @task2 = Factory(:myTask, :user=>user)
     end
     context " tasks viewable by this user" do
         let(:url) { "/api/v1/tasks"  }
@@ -67,5 +65,25 @@ describe "api/v1/mytasks" , :type => :api do
             task_response = JSON.parse(last_response.body)
             task_response["name"] .should eql(taskName)
          end
+    end
+    context "updating a task" do
+        let(:url) { "/api/v1/tasks/#{@task.id}"}
+        it "successful JSON" do
+            @task.name.should eql(taskName)
+            put "#{url}.json", :token => token , :task => { :name => "Updated Task" }
+            last_response.status.should eql(200)
+            @task.reload
+            @task.name.should eql("Updated Task")
+            last_response.body.should eql("{}")
+        end
+        it "unsuccessful JSON" do
+            @task.name.should eql(taskName)
+            put "#{url}.json", :token => token , :task => { :name => "" }
+            last_response.status.should eql(422)
+            @task.reload
+            @task.name.should eql(taskName)
+            errors = {:name => ["can't be blank"]}
+            last_response.body.should eql(errors.to_json)
+        end
     end
 end

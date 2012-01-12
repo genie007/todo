@@ -1,5 +1,5 @@
 class Api::V1::TasksController < Api::V1::BaseController 
-    before_filter :find_task , :only => [:show]
+    before_filter :find_task , :only => [:show, :update ] 
     def index  
         respond_with(MyTask.for(current_user, :action => 'view')) 
     end
@@ -15,6 +15,12 @@ class Api::V1::TasksController < Api::V1::BaseController
         task =MyTask.find(params[:id])
         respond_with task
     end
+    
+    def update
+        @task.update_attributes(params[:task])
+        respond_with(@task)
+    end
+    
   private
     def find_task
         @task = MyTask.for(current_user,"view").find(params[:id])
